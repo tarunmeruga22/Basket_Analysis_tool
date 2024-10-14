@@ -7,7 +7,7 @@ from logic import master
 st.set_page_config(page_title="Leverage Your Sales", page_icon="🛒", layout="wide", initial_sidebar_state="collapsed")
 
 # Load the background image
-image_path = "/Users/apple/Downloads/maxim-berg-OKjxoWaKNI0-unsplash.jpg"
+image_path = "maxim-berg-OKjxoWaKNI0-unsplash.jpg"
 with open(image_path, "rb") as image_file:
     encoded_image = base64.b64encode(image_file.read()).decode()
 
