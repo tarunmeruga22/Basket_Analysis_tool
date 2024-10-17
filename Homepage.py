@@ -1,17 +1,29 @@
 import streamlit as st
+import gspread
+from google.oauth2.service_account import Credentials
 import base64
 import pandas as pd
 from logic import master
+
+# Define the scope
+SCOPES = ['https://www.googleapis.com/auth/spreadsheets', 'https://www.googleapis.com/auth/drive']
+
+# Authenticate using the credentials JSON file
+creds = Credentials.from_service_account_file('/Users/apple/Desktop/Basket_Analysis_Tool/.streamlit/basket-analysis-438907-d4db6b50e9e5.json', scopes=SCOPES)
+
+# Authorize and open the Google Sheet
+client = gspread.authorize(creds)
+sheet = client.open('Basket_Analysis_leads').sheet1
 
 # Set page configuration with the sidebar collapsed by default
 st.set_page_config(page_title="Leverage Your Sales", page_icon="🛒", layout="wide", initial_sidebar_state="collapsed")
 
 # Load the background image
-image_path = "maxim-berg-OKjxoWaKNI0-unsplash.jpg"
+image_path = ""
 with open(image_path, "rb") as image_file:
     encoded_image = base64.b64encode(image_file.read()).decode()
 
-# Create a sample CSV file content for download
+# Sample CSV data for download
 sample_csv_data = """order_id,product_id,product_title
 485162XXXXXX1,6572374XXXXXX,Product A
 485162XXXXXX2,6572374XXXXXX,Product B
@@ -26,82 +38,87 @@ def generate_download_link(csv_data, filename, link_text):
 # Apply custom CSS for the background and styling
 st.markdown(f"""
     <style>
-     /* Set the entire page's background image */
     .stApp {{
         background-image: url(data:image/png;base64,{encoded_image});
         background-size: cover;
         background-position: center;
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }}
-    /* Make the header bar transparent */
     .stAppHeader {{
         background-color: transparent !important;
     }}
-    /* Style for main content container */
     .content-container {{
         text-align: center;
-        color: #FF6A95;
+        color: #aed6f1;
         padding: 80px 10px;
     }}
-
-    /* Styling the header text */
     .header-title {{
         font-size: 6.5em;
         font-weight: bold;
-        color: #FF6A95;
-        background: linear-gradient(to right, #FF6A95, #C773FF);
+        color: #aed6f1;
+        background: linear-gradient(to right,#5dade2, #d2b4de );
         -webkit-background-clip: text;
         color: transparent;
         margin-top:-20px; 
     }}
-
-    /* Styling the description under the title */
     .description-text {{
         font-size: 1.5em;
-        font-weight: normal;  /* Make the text unbold */
-        color: #36454F;       /* Make the text black */
-        letter-spacing: 0.03em;  /* Increase letter spacing */
-        margin-top: -18px;    /* Bring it closer to the title */
+        font-weight: normal;
+        color: #36454F;
+        letter-spacing: 0.03em;
+        margin-top: -18px;
     }}
-
-    /* Styling the description under the title */
     .description-Para {{
         font-size: 1em;
-        font-weight: italic;  /* Make the text unbold */
-        color: #36454F;       /* Make the text black */
-        letter-spacing: 0.1em;  /* Increase letter spacing */
+        font-weight: italic;
+        color: #36454F;
+        letter-spacing: 0.1em;
         width: 950px; 
         text-align: left;
         margin-top: 20px;
     }}
-
-    /* Styling the file upload input */
     .stFileUploader > label {{
         display: flex;
         justify-content: center;
+        margin-top: -20px;
     }}
-    
-    /* Style for the upload area */
     .stFileUploader {{
-        width: 380px;  /* Set a specific width for the drag-and-drop area */
+        width: 380px;
     }}
-    
-    /* Style for file upload instructions */
     .file-upload-instructions {{
-        margin-top: 120px;
+        margin-top: 25px;
         font-size: 1.3em;
         font-weight: bold;
         color: #36454F;
         opacity: 0.8;
     }}
-
-    /* Hyperlink styling for Sample Data */
     .sample-data-link {{
         color: #FF8096;
         text-decoration: underline;
         font-size: 1em;
         cursor: pointer;
     }}
+
+    .email-input-label {{
+        font-size: 1.3em;
+        color: #36454F;
+        font-weight: bold;
+        margin-top : 40px;
+        opacity: 0.8;
+    }}
+    .stTextInput {{
+        width: 480px; /* Set the width for the email input field */
+        margin-top : -20px;
+        
+    }}
+    .sttext_input > label {{ 
+        display: flex;
+        justify-content: center;
+        width: 480px;
+        color: #36454F;
+    }}
+
+
     </style>
 """, unsafe_allow_html=True)
 
@@ -114,11 +131,21 @@ st.markdown("<h1 class='header-title'>Basket Analysis</h1>", unsafe_allow_html=T
 # Description text under the title
 st.markdown("<div class='description-text'>Identify frequently purchased product combinations from your Sales.</div>", unsafe_allow_html=True)
 
-st.markdown('''<div class='description-Para'>Basket analysis is crucial for Direct-to-Consumer (D2C) brands because it enables them to identify
-             product combinations that are frequently purchased together.This helps brands personalize product recommendations based 
-            on frequently bought items, driving upselling and cross-selling strategies. According to a study, personalized product
-            recommendations account for 26% of eCommerce revenue. Offering curated suggestions can significantly increase Average Order Value (AOV)
-             by up to 10-30%, helping brands optimize their revenue from every customer interaction.</div>''', unsafe_allow_html=True)
+st.markdown('''<div class='description-Para'>Basket analysis is crucial for Direct-to-Consumer (D2C)
+             brands because it identifies product combinations that are frequently purchased together. 
+            By analyzing these patterns, brands can uncover valuable insights into customer behavior, 
+            leading to more effective cross-selling, upselling, and personalized shopping experiences.</div>''', unsafe_allow_html=True)
+
+# Email Input Field
+st.markdown("<div class='email-input-label'>Enter your email address</div>", unsafe_allow_html=True)
+email = st.text_input("", key="email_input", placeholder="your.email@example.com")
+
+
+# Save email if entered
+if email:
+    # Save the email to the Google Sheet
+    sheet.append_row([email])
+    st.success("Success")
 
 # Upload CSV section
 st.markdown("<div class='file-upload-instructions'>Please upload the Sales data in a CSV file</div>", unsafe_allow_html=True)
@@ -160,7 +187,7 @@ with col1:
             st.error("Please upload a CSV file before submitting.")
 
 # Footer note for required columns
-st.markdown("<p class='footer-note'>Note: Mentioned columns must be in the data with same column name.</p>", unsafe_allow_html=True)
+st.markdown("<p class='footer-note'>Note : Mentioned columns must be in the data with same column name.</p>", unsafe_allow_html=True)
 
 # End of main content container
 st.markdown("</div>", unsafe_allow_html=True)
