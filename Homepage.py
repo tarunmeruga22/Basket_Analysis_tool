@@ -9,7 +9,7 @@ from logic import master
 SCOPES = ['https://www.googleapis.com/auth/spreadsheets', 'https://www.googleapis.com/auth/drive']
 
 # Authenticate using the credentials JSON file
-creds = Credentials.from_service_account_file('/Users/apple/Desktop/Basket_Analysis_Tool/.streamlit/basket-analysis-438907-d4db6b50e9e5.json', scopes=SCOPES)
+creds = Credentials.from_service_account_file('.streamlit/basket-analysis-438907-d4db6b50e9e5.json', scopes=SCOPES)
 
 # Authorize and open the Google Sheet
 client = gspread.authorize(creds)
@@ -19,7 +19,7 @@ sheet = client.open('Basket_Analysis_leads').sheet1
 st.set_page_config(page_title="Leverage Your Sales", page_icon="🛒", layout="wide", initial_sidebar_state="collapsed")
 
 # Load the background image
-image_path = ""
+image_path = "256013152_06ded2be-68c1-4023-ab8c-0783ccfb952c.jpg"
 with open(image_path, "rb") as image_file:
     encoded_image = base64.b64encode(image_file.read()).decode()
 
