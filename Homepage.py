@@ -9,7 +9,7 @@ from logic import master
 SCOPES = ['https://www.googleapis.com/auth/spreadsheets', 'https://www.googleapis.com/auth/drive']
 
 # Authenticate using the credentials JSON file
-creds = Credentials.from_service_account_file('.streamlit/basket-analysis-438907-d4db6b50e9e5.json', scopes=SCOPES)
+creds = Credentials.from_service_account_file('basket-analysis-438907-d4db6b50e9e5.json', scopes=SCOPES)
 
 # Authorize and open the Google Sheet
 client = gspread.authorize(creds)
