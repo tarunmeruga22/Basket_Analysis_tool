@@ -4,12 +4,13 @@ from google.oauth2.service_account import Credentials
 import base64
 import pandas as pd
 from logic import master
+import json
 
-# Define the scope
-SCOPES = ['https://www.googleapis.com/auth/spreadsheets', 'https://www.googleapis.com/auth/drive']
+# Load credentials from Streamlit secrets
+credentials_info = json.loads(st.secrets["google_credentials"]["GOOGLE_SHEET_CREDENTIALS_JSON"])
 
-# Authenticate using the credentials JSON file
-creds = Credentials.from_service_account_file('basket-analysis-438907-d4db6b50e9e5.json', scopes=SCOPES)
+# Authenticate using the credentials
+creds = Credentials.from_service_account_info(credentials_info, scopes=['https://www.googleapis.com/auth/spreadsheets', 'https://www.googleapis.com/auth/drive'])
 
 # Authorize and open the Google Sheet
 client = gspread.authorize(creds)
