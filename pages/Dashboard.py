@@ -151,7 +151,7 @@ else:
     # Feedback Section at the bottom of the sidebar
     st.sidebar.markdown("<br><br><br><br><br><br><br><br><br><br><br>", unsafe_allow_html=True)  # Add some space
     st.sidebar.markdown("For any queries:")
-    Linkedin_link = "www.linkedin.com/in/tarun-meruga-0b687822b"
+    Linkedin_link = "https://www.linkedin.com/in/tarun-meruga-0b687822b"
     st.sidebar.markdown(f"[Tarun Meruga]({Linkedin_link})")
     st.sidebar.markdown("[tarunmeruga22@gmail.com](mailto:tarunmeruga22@gmail.com)")
 
