@@ -119,7 +119,7 @@ else:
     st.plotly_chart(fig_top_10)
 
     # Top 10 Combo Percentages
-    st.subheader("Top 10 Combo Percentages")
+    st.subheader("Top 5 Combo Percentages")
 
     # Calculate combo percentages for each combo relative to the total
     combo_titles = ['COMBO 1 PRODUCT_TITLE', 'COMBO 2 PRODUCT_TITLE', 'COMBO 3 PRODUCT_TITLE', 'COMBO 4 PRODUCT_TITLE', 'COMBO 5 PRODUCT_TITLE']
