@@ -149,7 +149,7 @@ else:
         st.markdown(f"<div style='background-color:{color};padding:10px;border-radius:5px;width:{percentage}%;'></div>", unsafe_allow_html=True)
 
     # Feedback Section at the bottom of the sidebar
-    st.sidebar.markdown("<br><br><br><br><br><br><br><br><br><br><br>", unsafe_allow_html=True)  # Add some space
+    st.sidebar.markdown("<br><br><br><br><br><br><br><br><br><br><br><br>", unsafe_allow_html=True)  # Add some space
     st.sidebar.markdown("For any queries:")
     Linkedin_link = "https://www.linkedin.com/in/tarun-meruga-0b687822b"
     st.sidebar.markdown(f"[Tarun Meruga]({Linkedin_link})")
