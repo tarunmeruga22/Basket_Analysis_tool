@@ -188,7 +188,7 @@ with col1:
             st.error("Please upload a CSV file before submitting.")
 
 # Footer note for required columns
-st.markdown("<p class='footer-note'>Note : Mentioned columns must be in the data with same column name.</p>", unsafe_allow_html=True)
+st.markdown("<p class='footer-note'>Note : Columns names must be same as mentioned in sample data.</p>", unsafe_allow_html=True)
 
 # End of main content container
 st.markdown("</div>", unsafe_allow_html=True)
